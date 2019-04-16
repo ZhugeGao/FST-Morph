@@ -1,0 +1,22 @@
+! noun.lexc
+!
+! This lexicon lists regular nouns.
+!
+! We use lexc as a simple lexical listing mechanism, and
+! concatenate the morphotactics in the xfst code.
+! However, it can handle more here. For example, it is common to 
+! define the morphotactics by replacing the end-of-word '#' symbol
+! below with additional 'LEXICONS' which are concatenated to the root
+! LEXICON.
+! 
+!
+LEXICON Root
+cat     #;
+cow     #;
+bat     #;
+fox     #;
+finch   #;
+fish    #;
+butterfly   #;
+turkey  #;
+

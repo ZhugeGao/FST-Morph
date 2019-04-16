@@ -1,0 +1,24 @@
+! noun-irreg.lexc
+!
+! We explicitly list the plural inflection of irregular plurals here.
+!
+! Note that angle brackets (< and >) are special symbols in lexc
+! language. They need to be escaped using the percentage sign.
+!
+! Also note that lexc expands all sequences, treating each character
+! as a symbol in the resulting FST. To keep the analysis symbols
+! <N>, <PL> and <SG> as single symbols, we define them as
+! Multichar_Symbols below. You can do without multi-char
+! symbols as well, but they often make transitions more readable.
+!
+
+Multichar_Symbols %<N%> %<PL%> %<SG%>
+
+LEXICON Root
+mouse%<N%>%<PL%>:mice   #;
+mouse%<N%>%<SG%>:mouse  #;
+sheep%<N%>%<SG%>:sheep  #;
+sheep%<N%>%<PL%>:sheep  #;
+fish%<N%>%<PL%>:fish    #;
+monarch%<N%>%<PL%>:monarchs #;
+monarch%<N%>%<SG%>:monarch  #;

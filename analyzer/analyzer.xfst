@@ -1,0 +1,54 @@
+! analyzer.xfst
+!
+! This is the main source file for our analyzer.
+! Use the command 'source analyzer.xfst' from the hfst-xfst or foma
+! command line to work with the result interactively.
+!
+! You can also save the active FST in a number of formats.
+! For this exercise we will use 'write att' command to save our
+! final analyzer as a AT&T-formatted FST file.
+!
+! We define the morphotactics and the orthographic/phonological
+! alternations here.
+!
+
+! read regular noun stems
+read lexc noun.lexc
+define NounStem
+
+! read irregular noun stems
+read lexc noun-irreg.lexc
+define NounIrreg
+
+!
+! Define number agreement markers for nouns
+! Note that this is somewhat different than in-class demonstration.
+! Here, we insert an intermediate symbol "<s>" for plural, and we will 
+! deal with the phonological/orthographic alternations separately,
+! rewriting the intermediate symbol "<s>" based on its context.
+!
+define NounNumber "<PL>":"<s>"|"<SG>":0;
+define Nouns NounStem "<N>" NounNumber | NounIrreg;
+
+!
+! Insert an "e" before the intermediate symbol "<s>" if it follows
+! "x", "ch" and "sh". Note that this is only
+! a partial list of contexts where e-insertion occurs. Exercise 1 is about extending this
+! list to cover other contexts where other e-insertion happens.
+!
+
+define eInsertion [..] -> e || [x | {ch} | {sh}] "<N>" _ "<s>";
+
+!
+! Exercise 2: implementing y replacement so that your analyzer
+! analyzes words like 'butterfly' correctly.
+! Insert "e" before the intermediate symbol "<s>" if it follows
+! a "y", which will be replaced by "i". If there is a vowel before y, then no need to insert "e".
+
+define yReplacement  y -> i e || \[a|e|i|o|u] _ "<N>" "<s>";
+
+define ReplaceIntermediate "<s>" -> s ,, "<N>" -> 0;
+
+define analyzer Nouns .o. eInsertion .o. yReplacement .o. ReplaceIntermediate;
+
+regex analyzer;
